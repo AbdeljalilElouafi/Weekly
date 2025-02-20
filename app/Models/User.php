@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -45,4 +46,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (empty($user->role)) {
+                $user->role = 'user'; 
+            }
+        });
+    }
+
+
+
 }
