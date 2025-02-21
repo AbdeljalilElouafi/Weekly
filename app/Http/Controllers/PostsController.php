@@ -44,7 +44,7 @@ class PostsController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price,
-            'image' => $request->image ? $request->file('image')->store('images') : null, 
+            'image' => $request->image ? $request->file('image')->store('images', 'public') : null,
             'status' => $request->status,
             'user_id' => auth()->id(),
             'category_id' => $request->category_id,
@@ -108,5 +108,30 @@ class PostsController extends Controller
 
         return view('posts.trashed', compact('posts'));
     }
+
+
+    public function show(Posts $post)
+    {
+        $post->load(['comments.user', 'category']);
+        return view('posts.show', compact('post'));
+    }
+
+    public function like(Posts $post)
+    {
+        $post->likes()->create([
+            'user_id' => auth()->id()
+        ]);
+        
+        return back();
+    }
+
+    public function unlike(Posts $post)
+    {
+        $post->likes()->where('user_id', auth()->id())->delete();
+        
+        return back();
+    }
+
+
 
 }

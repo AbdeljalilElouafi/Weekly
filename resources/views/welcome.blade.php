@@ -25,15 +25,15 @@
                     @if (Route::has('login'))
                         @auth
                             <li class="nav-item">
-                                <a href="{{ url('/dashboard') }}" class="nav-link">Dashboard</a>
+                                <a href="{{ url('/dashboard') }}" class="navbar-brand">Dashboard</a>
                             </li>
                         @else
                             <li class="nav-item">
-                                <a href="{{ route('login') }}" class="nav-link">Log in</a>
+                                <a href="{{ route('login') }}" class="navbar-brand">Log in</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a href="{{ route('register') }}" class="nav-link">Register</a>
+                                    <a href="{{ route('register') }}" class="navbar-brand">Register</a>
                                 </li>
                             @endif
                         @endauth
@@ -79,7 +79,7 @@
                 <div class="col">
                     <div class="card h-100 shadow-sm">
                         @if($post->image)
-                            <img src="{{ asset('storage/' . $post->image) }}" 
+                            <img src="{{ Storage::url($post->image)}}" 
                                  class="card-img-top" 
                                  alt="{{ $post->title }}"
                                  style="height: 200px; object-fit: cover;">
@@ -106,7 +106,7 @@
                                 <small class="text-muted">
                                     Posted {{ $post->created_at->diffForHumans() }}
                                 </small>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Read More</a>
+                                <a href="{{ route('posts.show', $post->id) }}" class="btn btn-sm btn-outline-primary">Read More</a>
                             </div>
                         </div>
                     </div>
